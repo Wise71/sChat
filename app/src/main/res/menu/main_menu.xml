@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.sarapul.wise71.schat.MainActivity">
+    <item
+        android:id="@+id/sign_out_menu"
+        android:title="@string/sign_out"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/fresh_config_menu"
+        android:title="@string/fresh_config"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/invite_menu"
+        android:title="@string/invite_menu_label"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/crash_menu"
+        android:title="@string/cause_crash"/>
+    <item android:id="@+id/reconfig"
+        android:title="@string/reconfig"
+        app:showAsAction="never"/>
+</menu>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/nav_button_chat"
+        android:title="@string/chat_button"
+        android:icon="@drawable/ic_icon_chat"
+
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/nav_button_dialogs"
+        android:title="@string/dialog_button"
+        android:icon="@drawable/ic_icon_forum"
+
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/nav_button_search"
+        android:title="@string/search_button"
+        android:icon="@drawable/ic_icon_search"
+
+        app:showAsAction="ifRoom"/>
+
+</menu>
