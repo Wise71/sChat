@@ -32,11 +32,13 @@
         android:text="@string/enter"
         />
 
-    <com.facebook.login.widget.LoginButton
+    <Button
         android:id="@+id/facebook_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:text="@string/sign_in_facebook_button"
+        />
 
     <Button
         android:layout_gravity="center"

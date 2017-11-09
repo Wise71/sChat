@@ -4,7 +4,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sarapul.wise71.schat.ClientLoader;
 import com.sarapul.wise71.schat.models.GetTokenIdListener;
 import com.sarapul.wise71.schat.models.ok.OkUserProfile;
 

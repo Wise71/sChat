@@ -23,4 +23,5 @@
     <string name="test_button">Test</string>
     <string name="send_message">Отправить</string>
     <string name="reconfig">Reconfig</string>
+    <string name="sign_in_facebook_button">Facebook</string>
 </resources>

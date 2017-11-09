@@ -1,4 +1,4 @@
-package com.sarapul.wise71.schat;
+package com.sarapul.wise71.schat.data;
 
 import android.support.annotation.NonNull;
 import android.util.Log;

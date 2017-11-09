@@ -1,10 +1,7 @@
 package com.sarapul.wise71.schat.data;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sarapul.wise71.schat.ClientLoader;
 import com.sarapul.wise71.schat.models.GetTokenIdListener;
 import com.sarapul.wise71.schat.models.vk.Response;
 import com.sarapul.wise71.schat.models.vk.VkUserProfile;
@@ -15,12 +12,9 @@ public class VkParse {
 
     private static final String TAG = "VkStoreData";
 
-    private Response vkProfile;
-    private String vkontakteId;
+    private Response mVkProfile;
     private String mVkId;
-    private String vkPhotoPath;
-    private DatabaseReference mFirebaseDatabaseReference =
-            FirebaseDatabase.getInstance().getReference();
+    private String mVkPhotoPath;
     private GetTokenIdListener callBack;
 
     public VkParse (GetTokenIdListener getTokenIdListener) {
@@ -32,15 +26,14 @@ public class VkParse {
         Gson gson = new GsonBuilder().create();
         VkUserProfile vkResponse =
                 gson.fromJson(jsonBody.toString(), VkUserProfile.class);
-        vkProfile = vkResponse.getResponse().get(0);
-        vkPhotoUrl = vkProfile.getPhotoMaxOrig();
-        vkontakteId = vkProfile.getId().toString();
-        mVkId = vkProfile.getId().toString() + "vk";
-        vkPhotoPath = "images/vk/" + mVkId + ".jpg";
-        new ClientLoader().getTokenId(vkontakteId + "vk", callBack);
+        mVkProfile = vkResponse.getResponse().get(0);
+        vkPhotoUrl = mVkProfile.getPhotoMaxOrig();
+        mVkId = mVkProfile.getId().toString() + "vk";
+        mVkPhotoPath = "images/vk/" + mVkId + ".jpg";
+        new ClientLoader().getTokenId(mVkId, callBack);
         new UploadPhotoTask(() ->
                 new WriteData()
-                        .writeToTheDatabase("vkontakte", vkProfile), vkPhotoPath)
+                        .writeToTheDatabase("vkontakte", mVkProfile), mVkPhotoPath)
                         .execute(vkPhotoUrl);
 
     }

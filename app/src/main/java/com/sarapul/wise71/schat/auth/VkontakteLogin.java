@@ -11,13 +11,12 @@ import com.vk.sdk.api.VKResponse;
 
 public class VkontakteLogin {
 
-    // Instance variables
-    private GetTokenIdListener callBack;
+    private GetTokenIdListener mCallBack;
 
     VKRequest.VKRequestListener mRequestListener = new VKRequest.VKRequestListener() {
         @Override
         public void onComplete(VKResponse response) {
-            new VkParse(callBack).vkJsonParse(response.json);
+            new VkParse(mCallBack).vkJsonParse(response.json);
         }
 
         @Override
@@ -41,7 +40,7 @@ public class VkontakteLogin {
                 "id,nickname,first_name,last_name,sex,bdate,city,home_town,photo_50,photo_100," +
                         "photo_200_orig,photo_200,photo_400_orig,photo_max,photo_max_orig"));
         request.executeWithListener(mRequestListener);
-        callBack = getTokenIdListener;
+        mCallBack = getTokenIdListener;
     }
 
 }

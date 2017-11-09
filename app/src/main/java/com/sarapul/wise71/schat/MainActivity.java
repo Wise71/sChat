@@ -10,9 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.sarapul.wise71.schat.R;
 import com.sarapul.wise71.schat.auth.OdnoklassnikiLogin;
 import com.vk.sdk.VKSdk;
 
@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private FirebaseAuth mFirebaseAuth;
-    FirebaseUser mFirebaseUser;
+    private FirebaseUser mFirebaseUser;
     private OdnoklassnikiLogin mOdnoklassnikiLogin;
 
     @Override
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.sign_out_menu:
                 VKSdk.logout();
                 mOdnoklassnikiLogin.getOdnoklassnikiInstance().clearTokens();
+                LoginManager.getInstance().logOut();
                 mFirebaseAuth.signOut();
                 startSignInActivity();
                 return true;

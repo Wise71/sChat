@@ -1,5 +1,6 @@
 package com.sarapul.wise71.schat.data;
 
+import com.facebook.Profile;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +52,18 @@ public class WriteData {
                 photoPath = "images/ok/" + socialId + ".jpg";
                 gender = okProfile.getGender();
                 city = okProfile.getLocation().getCity();
+                break;
+
+            case "facebook" :
+                Profile facebookProfile = (Profile) profile;
+                socialId = facebookProfile.getId() + "facebook";
+                nickname = facebookProfile.getName();
+                firstName = facebookProfile.getFirstName();
+                lastName = facebookProfile.getLastName();
+                birthday = null;
+                photoPath = "images/facebook/" + socialId + ".jpg";
+                gender = null;
+                city = null;
                 break;
 
             default:

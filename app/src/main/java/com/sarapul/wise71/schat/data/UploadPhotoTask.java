@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-class UploadPhotoTask extends AsyncTask<String, Void, Void> {
+public class UploadPhotoTask extends AsyncTask<String, Void, Void> {
 
     public UploadPhotoTask(WriteDatabaseListener writeDatabaseListener,
                            String photoPath) {
@@ -45,8 +45,6 @@ class UploadPhotoTask extends AsyncTask<String, Void, Void> {
         uploadTask.addOnFailureListener(exception -> {
             // Handle unsuccessful uploads
         }).addOnSuccessListener(taskSnapshot -> {
-            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-//            Uri downloadUrl = taskSnapshot.getDownloadUrl();
             callBack.onWriteDatabase();
         });
         return null;

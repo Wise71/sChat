@@ -8,15 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.sarapul.wise71.schat.R;
+import com.sarapul.wise71.schat.auth.FacebookLogin;
 import com.sarapul.wise71.schat.auth.OdnoklassnikiLogin;
 import com.sarapul.wise71.schat.auth.VkontakteLogin;
 import com.vk.sdk.VKAccessToken;
@@ -36,14 +30,12 @@ public class SignInActivity extends AppCompatActivity implements
 
   private static final String TAG = "SignInActivity";
 
+    private Button mSignInVkButton, mTestButton, mSignInOkButton, mFacebookButton;
     private ProgressBar mProgressBar;
     private OdnoklassnikiLogin mOdnoklassnikiLogin;
-
-    // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
     private FirebaseUser mFirebaseUser;
-
-    CallbackManager mFacebookCallbackManager;
+    private FacebookLogin mFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,40 +44,22 @@ public class SignInActivity extends AppCompatActivity implements
 
         mProgressBar = findViewById(R.id.progressBar);
 
-        mOdnoklassnikiLogin = OdnoklassnikiLogin.getInstance(this.getApplicationContext());
-
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        mFacebookCallbackManager = CallbackManager.Factory.create();
+        mOdnoklassnikiLogin = OdnoklassnikiLogin
+                .getInstance(this.getApplicationContext());
 
         // Assign fields
-      Button mSignInVkButton = findViewById(R.id.sign_in_button_vk);
-      Button mTestButton = findViewById(R.id.sign_in_test_button);
-      Button mSignInOkButton = findViewById(R.id.sign_in_button_ok);
-      LoginButton mFacebookButton = findViewById(R.id.facebook_login_button);
-
-        mFacebookButton.setReadPermissions("email");
-        mFacebookButton.registerCallback(mFacebookCallbackManager,
-                new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d(TAG, "onSuccess" + loginResult.getAccessToken());
-            }
-
-            @Override
-            public void onCancel() {
-                Log.i(TAG, "onCancel");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.i(TAG, "onError");
-            }
-        });
+        mSignInVkButton = findViewById(R.id.sign_in_button_vk);
+        mTestButton = findViewById(R.id.sign_in_test_button);
+        mSignInOkButton = findViewById(R.id.sign_in_button_ok);
+        mFacebookButton = findViewById(R.id.facebook_login_button);
 
         // Set click listeners
         mSignInOkButton.setOnClickListener(this);
         mSignInVkButton.setOnClickListener(this);
         mTestButton.setOnClickListener(this);
+        mFacebookButton.setOnClickListener(this);
+
+        mFacebook = new FacebookLogin(this::signInWithFirebase);
 
         // Initialize FirebaseAuth
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -103,6 +77,9 @@ public class SignInActivity extends AppCompatActivity implements
                 VKSdk.login(this, VKScope.PHOTOS);
                 break;
             case R.id.sign_in_test_button:
+                break;
+            case R.id.facebook_login_button:
+                mFacebook.performSignIn(this);
                 break;
             default:
                 break;
@@ -134,7 +111,8 @@ public class SignInActivity extends AppCompatActivity implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+        if (!VKSdk.onActivityResult(requestCode, resultCode, data,
+                new VKCallback<VKAccessToken>() {
             @Override
             public void onResult(VKAccessToken res) {
                 // Пользователь успешно авторизовался
@@ -151,11 +129,10 @@ public class SignInActivity extends AppCompatActivity implements
         if (Odnoklassniki.getInstance().isActivityRequestOAuth(requestCode)) {
             mProgressBar.setVisibility(ProgressBar.VISIBLE);
             mOdnoklassnikiLogin.requestOk(
-                    uId -> signInWithFirebase(uId), requestCode, resultCode, data);
+                    this::signInWithFirebase, requestCode, resultCode, data);
         }
 
-        if (mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data)) {
-            mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
-        }
+        mFacebook.onActivityResult(requestCode, resultCode, data, mProgressBar);
     }
+
 }
